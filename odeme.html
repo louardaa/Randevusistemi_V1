@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ödeme</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        form {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            box-sizing: border-box;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4caf50;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        .card {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-number {
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .card-holder {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .expiry-cvv {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ödeme Bilgileri</h1>
+  
+    <form>
+        <label for="kartNo">Kart Numarası:</label>
+        <div class="card">
+            <div id="kartNumarasi" class="card-number">**** **** **** ****</div>
+            <div id="kartSahibi" class="card-holder">Arda Anıl</div>
+            <div class="expiry-cvv">
+                <div id="sonKullanmaTarihi" class="expiry">MM/YY</div>
+                <div id="guvenlikKodu" class="cvv">***</div>
+            </div>
+        </div>
+        
+        <label for="kartSahibiInput">Kart Sahibi:</label>
+        <input type="text" id="kartSahibiInput" name="kartSahibi" placeholder="Kart Sahibinin Adını Girin" onchange="updateCardHolder(this.value)">
+        
+        <label for="kartNoInput">Kart Numarası:</label>
+        <input type="text" id="kartNoInput" name="kartNo" placeholder="Kart Numarasını Girin" maxlength="16" onchange="updateCardNumber(this.value)">
+        
+        <label for="sonKullanmaTarihiInput">Son Kullanma Tarihi:</label>
+        <input type="text" id="sonKullanmaTarihiInput" name="sonKullanmaTarihi" placeholder="MM/YY" maxlength="5" onchange="updateExpiry(this.value)">
+        
+        <label for="guvenlikKoduInput">Güvenlik Kodu:</label>
+        <input type="text" id="guvenlikKoduInput" name="guvenlikKodu" placeholder="Güvenlik Kodunu Girin" maxlength="3" onchange="updateCVV(this.value)">
+        
+        <button type="submit" onclick="odemeYap()">Ödemeyi Tamamla</button>
+    </form>
+  
+    <script>
+        function updateCardNumber(value) {
+            var cardNumberElement = document.getElementById('kartNumarasi');
+            cardNumberElement.textContent = maskCardNumber(value);
+        }
+        
+        function updateCardHolder(value) {
+            var cardHolderElement = document.getElementById('kartSahibi');
+            cardHolderElement.textContent = value;
+        }
+        
+        function updateExpiry(value) {
+            var expiryElement = document.getElementById('sonKullanmaTarihi');
+            expiryElement.textContent = value;
+        }
+        
+        function updateCVV(value) {
+            var cvvElement = document.getElementById('guvenlikKodu');
+            cvvElement.textContent = value;
+        }
+        
+        function maskCardNumber(cardNumber) {
+            var maskedNumber = '';
+            for (var i = 0; i < cardNumber.length; i++) {
+                if (i > 3 && i < cardNumber.length - 4) {
+                    maskedNumber += '*';
+                } else {
+                    maskedNumber += cardNumber.charAt(i);
+                }
+            }
+            return maskedNumber;
+        }
+        
+        function odemeYap() {
+            // Formdan girilen kart bilgilerini al
+            var kartNo = document.getElementById('kartNoInput').value;
+            var kartSahibi = document.getElementById('kartSahibiInput').value;
+            var sonKullanmaTarihi = document.getElementById('sonKullanmaTarihiInput').value;
+            var guvenlikKodu = document.getElementById('guvenlikKoduInput').value;
+            
+            // Kart bilgilerini kullanarak gerçek ödeme işlemini yapabilirsiniz
+            
+            // Ödeme tamamlandıktan sonra yönlendirme yapabilirsiniz
+            window.location.href = "odeme_tamamlandi.html";
+        }
+    </script>
+</body>
+</html>

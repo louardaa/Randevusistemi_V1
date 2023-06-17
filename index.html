@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Randevu Sistemi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .form-group button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .randevu-saatleri {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .saat {
+            width: calc(25% - 10px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .saat.dolu {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .saat.bos {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .saat span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .saat .buton {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Randevu Sistemi</h1>
+    <div class="form">
+        <div class="form-group">
+            <label for="ad">Adınız:</label>
+            <input type="text" id="ad" required>
+        </div>
+        <div class="form-group">
+            <label for="tarih">Randevu Tarihi:</label>
+            <input type="date" id="tarih" required>
+        </div>
+        <div class="form-group">
+            <label for="saat">Randevu Saati:</label>
+            <select id="saat" required>
+                <option value="" disabled selected>Saat seçin</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <!-- Diğer saat seçeneklerini buraya ekleyin -->
+            </select>
+        </div>
+        <div class="form-group">
+            <button onclick="randevuAl()">Randevu Al</button>
+        </div>
+    </div>
+
+    <script>
+        function randevuAl() {
+            var ad = document.getElementById('ad').value;
+            var tarih = document.getElementById('tarih').value;
+            var saat = document.getElementById('saat').value;
+
+            // Randevu bilgilerini saklamak için bir nesne oluştur
+            var randevu = {
+                ad: ad,
+                tarih: tarih,
+                saat: saat
+            };
+
+            // Randevu bilgilerini localStorage'a kaydet
+            localStorage.setItem('randevu', JSON.stringify(randevu));
+
+            // Randevu.html sayfasına yönlendirme yap
+            window.location.href = 'randevu.html';
+        }
+
+        // Randevu saatlerini kontrol et ve dolu olanları işaretle
+        function kontrolEt() {
+            var randevu = JSON.parse(localStorage.getItem('randevu'));
+            var saatler = document.querySelectorAll('.saat');
+
+            for (var i = 0; i < saatler.length; i++) {
+                var saat = saatler[i].getAttribute('data-saat');
+
+                if (saat === randevu.saat) {
+                    saatler[i].classList.add('dolu');
+                    saatler[i].innerHTML += '<button class="buton" onclick="randevuDegistir()">Değiştir</button>';
+                } else {
+                    saatler[i].classList.add('bos');
+                    saatler[i].innerHTML += '<button class="buton" onclick="randevuDegistir()">Seç</button>';
+                }
+            }
+        }
+
+        function randevuDegistir() {
+            var ad = document.getElementById('ad').value;
+            var tarih = document.getElementById('tarih').value;
+            var saat = document.getElementById('saat').value;
+
+            var randevu = {
+                ad: ad,
+                tarih: tarih,
+                saat: saat
+            };
+
+            localStorage.setItem('randevu', JSON.stringify(randevu));
+
+            window.location.href = 'randevu.html';
+        }
+
+        window.addEventListener('load', function() {
+            kontrolEt();
+        });
+    </script>
+</body>
+</html>
